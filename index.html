@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Anniversaire de mon Ciccio Bello Bobo 💚</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="stage">
+    <!-- Scene pixel art (jeu + decors home/final) -->
+    <canvas id="game"></canvas>
+
+    <!-- ============ HOME (style menu Sims) ============ -->
+    <div id="home" class="overlay">
+      <div class="home-inner">
+        <div class="home-top">
+          <p class="kicker">✦ The Sims · Edition Anniversaire ✦</p>
+          <h1 class="title">Anniversaire<br><span>de mon Ciccio Bello Bobo</span></h1>
+        </div>
+        <div class="home-bottom">
+          <p class="subtitle">Saute sous les blocs&nbsp;? pour découvrir tes 4 cadeaux</p>
+          <button id="playBtn" class="btn btn-play">▶ JOUER</button>
+          <p class="hint">Flèches ← → pour bouger · Espace pour sauter</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HUD (en jeu) ============ -->
+    <div id="hud" class="hidden">
+      <div class="hud-pill">Cadeaux <span id="count">0 / 4</span></div>
+      <button id="muteBtn" class="hud-mute" title="Couper le son">🔊</button>
+    </div>
+
+    <!-- ============ Carte-message (panneau Sims) ============ -->
+    <div id="card" class="overlay hidden">
+      <div class="card-panel">
+        <canvas id="cardCanvas" class="card-gift"></canvas>
+        <h2 id="cardTitle">Cadeau</h2>
+        <p id="cardText">Message</p>
+        <button id="cardBtn" class="btn">Continuer ▶</button>
+      </div>
+    </div>
+
+    <!-- ============ Ecran final ============ -->
+    <div id="final" class="overlay hidden">
+      <div class="final-inner">
+        <h1 class="final-title">Joyeux<br>Anniversaire&nbsp;❤️</h1>
+        <p class="final-sub">mon Ciccio Bello Bobo</p>
+        <p class="final-text">Tu as trouvé tes 4 cadeaux 💚<br>Je t'aime fort.</p>
+        <button id="replayBtn" class="btn">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/sprites.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
