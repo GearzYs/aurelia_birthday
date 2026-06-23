@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#8fd3f0}canvas{image-rendering:pixelated;display:block;margin:0 auto}
+</style></head><body>
+<canvas id="c" width="620" height="380"></canvas>
+<script src="js/sprites.js"></script>
+<script>
+const ctx=document.getElementById('c').getContext('2d');ctx.imageSmoothingEnabled=false;
+const S=5;
+function unit(sp,x,y){drawSprite(ctx,sp,x,y,S,false);const p=SPRITES.plumbob;drawSprite(ctx,p,x+(sp.w*S)/2-(p.w*S)/2,y-p.h*S-2*S,S,false);}
+unit(SPRITES.girlIdle,20,110);
+unit(SPRITES.girlWalk,170,110);
+unit(SPRITES.girlJump,320,110);
+drawSprite(ctx,SPRITES.plumbob,470,90,9);
+drawSprite(ctx,SPRITES.blockQ,20,330,3);
+drawSprite(ctx,SPRITES.giftFlowers,90,335,3);
+drawSprite(ctx,SPRITES.giftWatch,140,335,3);
+drawSprite(ctx,SPRITES.giftDress,190,335,3);
+drawSprite(ctx,SPRITES.giftResto,240,335,3);
+</script></body></html>

@@ -102,7 +102,7 @@ html, body {
 .home-inner {
   height: 100%;
   width: 100%;
-  padding: 4% 4% 5%;
+  padding: 3% 4% 1.2%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,7 +230,7 @@ html, body {
 .final-inner {
   display: flex; flex-direction: column; align-items: center;
   pointer-events: none;
-  transform: translateY(-6%);
+  transform: translateY(-24%);
 }
 .final-title {
   font-size: clamp(18px, 4.5vw, 46px);

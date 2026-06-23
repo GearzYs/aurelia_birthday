@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:#04161f}
+canvas{image-rendering:pixelated;display:block;width:1280px;height:720px;margin:0 auto}
+</style></head><body>
+<canvas id="c" width="320" height="180"></canvas>
+<script src="js/sprites.js"></script>
+<script>
+const VIEW_W=320,VIEW_H=180,GROUND_Y=152,PLAYER_H=42,PLAYER_W=24;
+const ctx=document.getElementById('c').getContext('2d');ctx.imageSmoothingEnabled=false;
+// ciel
+let g=ctx.createLinearGradient(0,0,0,VIEW_H);g.addColorStop(0,'#79c9f2');g.addColorStop(1,'#cdeeff');
+ctx.fillStyle=g;ctx.fillRect(0,0,VIEW_W,VIEW_H);
+// nuages
+[[28,20],[190,14],[262,34],[110,40]].forEach(c=>drawSprite(ctx,SPRITES.cloud,c[0],c[1],1));
+// buissons + sol
+[[6,GROUND_Y-6],[VIEW_W-50,GROUND_Y-6]].forEach(b=>drawSprite(ctx,SPRITES.bush,b[0],b[1],1));
+ctx.fillStyle='#b07a43';ctx.fillRect(0,GROUND_Y,VIEW_W,VIEW_H-GROUND_Y);
+ctx.fillStyle='#7bd957';ctx.fillRect(0,GROUND_Y,VIEW_W,5);
+ctx.fillStyle='#5fb53f';ctx.fillRect(0,GROUND_Y+5,VIEW_W,2);
+// 4 blocs a y=50
+[0.2,0.4,0.6,0.8].forEach(f=>{const cx=VIEW_W*f;drawSprite(ctx,SPRITES.blockQ,Math.round(cx-7),50,1);});
+// perso a l'echelle 1 + plumbob, debout
+const px=44,py=GROUND_Y-PLAYER_H;
+drawSprite(ctx,SPRITES.girlIdle,px,py,1,false);
+const p=SPRITES.plumbob;drawSprite(ctx,p,Math.round(px+PLAYER_W/2-p.w/2),py-p.h-2,1,false);
+// un cadeau au sol pour l'echelle
+drawSprite(ctx,SPRITES.giftFlowers,150,GROUND_Y-12,1);
+</script></body></html>

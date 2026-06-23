@@ -6,7 +6,7 @@
   'use strict';
 
   // ---- Canvas / resolution interne (gros pixels via upscale CSS) ----------
-  const VIEW_W = 256, VIEW_H = 144;
+  const VIEW_W = 320, VIEW_H = 180;
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
   canvas.width = VIEW_W;
@@ -14,11 +14,11 @@
   ctx.imageSmoothingEnabled = false;
 
   // ---- Physique -----------------------------------------------------------
-  const GRAVITY = 0.3;
-  const MOVE_SPEED = 1.3;
-  const JUMP_VEL = -5.0;
-  const GROUND_Y = 122;            // haut du sol
-  const PLAYER_W = 16, PLAYER_H = 28;
+  const GRAVITY = 0.4;
+  const MOVE_SPEED = 1.6;
+  const JUMP_VEL = -7.0;
+  const GROUND_Y = 152;            // haut du sol
+  const PLAYER_W = 24, PLAYER_H = 42;
 
   // ---- Cadeaux (MESSAGES PERSONNALISABLES ICI) ---------------------------
   const GIFTS = [
@@ -53,9 +53,9 @@
 
   // ---- Decor (positions fixes) -------------------------------------------
   const clouds = [
-    { x: 24, y: 18 }, { x: 150, y: 12 }, { x: 200, y: 30 }, { x: 90, y: 34 },
+    { x: 28, y: 20 }, { x: 190, y: 14 }, { x: 262, y: 34 }, { x: 110, y: 40 },
   ];
-  const bushes = [{ x: 4, y: GROUND_Y - 6 }, { x: 210, y: GROUND_Y - 6 }];
+  const bushes = [{ x: 6, y: GROUND_Y - 6 }, { x: VIEW_W - 50, y: GROUND_Y - 6 }];
 
   // =========================================================================
   // INITIALISATION / RESET
@@ -71,7 +71,7 @@
     const centers = [VIEW_W * 0.20, VIEW_W * 0.40, VIEW_W * 0.60, VIEW_W * 0.80];
     blocks = centers.map(function (cx, i) {
       return {
-        x: Math.round(cx - 7), y: 56, w: 14, h: 14,
+        x: Math.round(cx - 7), y: 50, w: 14, h: 14,
         used: false, bump: 0, giftIndex: i,
       };
     });
@@ -164,7 +164,7 @@
 
     // --- gravite / saut ---
     player.vy += GRAVITY;
-    if (player.vy > 7) player.vy = 7;
+    if (player.vy > 9) player.vy = 9;
     player.y += player.vy;
 
     // sol
@@ -237,7 +237,7 @@
       x: b.x + (b.w - sp.w) / 2,
       y: b.y - sp.h,
       w: sp.w, h: sp.h,
-      vx: dir * 0.9, vy: -2.4,
+      vx: dir * 1.1, vy: -3.0,
       grounded: false,
     });
   }
@@ -247,7 +247,7 @@
       const g = gifts[i];
       // physique facon champignon Mario
       g.vy += GRAVITY * 0.7;
-      if (g.vy > 5) g.vy = 5;
+      if (g.vy > 6) g.vy = 6;
       g.x += g.vx;
       g.y += g.vy;
 
@@ -416,11 +416,15 @@
     drawClouds();
     drawGround();
     bushes.forEach(function (b) { drawSprite(ctx, SPRITES.bush, b.x, b.y, 1, false); });
-    // grande brune au centre
-    const sc = 3;
+    // la brune (echelle 1 : laisse la place au plumbob + titre au-dessus)
+    const sc = 1;
     const gw = SPRITES.girlIdle.w * sc, gh = SPRITES.girlIdle.h * sc;
-    const gx = (VIEW_W - gw) / 2, gy = GROUND_Y - gh;
+    const gx = Math.round((VIEW_W - gw) / 2), gy = GROUND_Y - gh;
     drawSprite(ctx, SPRITES.girlIdle, gx, gy, sc, false);
+    // plumbob losange anime au-dessus de la tete
+    const psc = 2, psp = SPRITES.plumbob;
+    const bob = Math.sin(tick * 0.12) * 2;
+    drawSprite(ctx, psp, Math.round(VIEW_W / 2 - (psp.w * psc) / 2), Math.round(gy - psp.h * psc - 3 + bob), psc, false);
   }
 
   function renderFinal() {
@@ -435,10 +439,10 @@
     // coeurs qui montent
     hearts.forEach(function (h) { drawSprite(ctx, SPRITES.heart, h.x, h.y, 2, false); });
     // la brune qui "danse"
-    const sc = 3;
+    const sc = 1;
     const frame = (Math.floor(tick / 14) % 2 === 0) ? SPRITES.girlIdle : SPRITES.girlJump;
     const gw = SPRITES.girlIdle.w * sc, gh = SPRITES.girlIdle.h * sc;
-    const gx = (VIEW_W - gw) / 2, gy = GROUND_Y - gh;
+    const gx = Math.round((VIEW_W - gw) / 2), gy = GROUND_Y - gh;
     drawSprite(ctx, frame, gx, gy, sc, (Math.floor(tick / 14) % 2 === 0));
     const psc = 2, psp = SPRITES.plumbob;
     const bob = Math.sin(tick * 0.18) * 2;
@@ -458,5 +462,8 @@
   Sound.init();
   resetGame();
   state = STATE.HOME;
+  // [DEV] sauts d'ecran pour tests : #game / #final
+  if (location.hash === '#game') { homeEl.classList.add('hidden'); hudEl.classList.remove('hidden'); state = STATE.GAME; }
+  else if (location.hash === '#final') { homeEl.classList.add('hidden'); collected = 4; goFinal(); }
   requestAnimationFrame(loop);
 })();
