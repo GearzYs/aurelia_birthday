@@ -18,7 +18,7 @@
   const MOVE_SPEED = 1.6;
   const JUMP_VEL = -7.0;
   const GROUND_Y = 152;            // haut du sol
-  const PLAYER_W = 24, PLAYER_H = 42;
+  const PLAYER_W = SPRITES.girlIdle.w, PLAYER_H = SPRITES.girlIdle.h;
 
   // ---- Cadeaux (MESSAGES PERSONNALISABLES ICI) ---------------------------
   const GIFTS = [
@@ -462,8 +462,5 @@
   Sound.init();
   resetGame();
   state = STATE.HOME;
-  // [DEV] sauts d'ecran pour tests : #game / #final
-  if (location.hash === '#game') { homeEl.classList.add('hidden'); hudEl.classList.remove('hidden'); state = STATE.GAME; }
-  else if (location.hash === '#final') { homeEl.classList.add('hidden'); collected = 4; goFinal(); }
   requestAnimationFrame(loop);
 })();
